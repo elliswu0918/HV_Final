@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小圈圈聊天室 - 心靈陪伴</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat-room.css">
+</head>
+<body>
+    <div class="app">
+        <header class="chat-room-header">
+            <button class="back-btn" onclick="history.back()">
+                <span class="material-icons">arrow_back</span>
+            </button>
+            <div class="circle-info">
+                <h1 id="circleName">載入中...</h1>
+                <p id="memberCount">0 位成員</p>
+            </div>
+            <button class="menu-btn">
+                <span class="material-icons">more_vert</span>
+            </button>
+        </header>
+
+        <main class="chat-room-main">
+            <div class="chat-messages" id="chatMessages">
+                <!-- 消息將由 JavaScript 動態添加 -->
+            </div>
+
+            <div class="chat-input-area">
+                <button class="feature-btn">
+                    <span class="material-icons">add_circle</span>
+                </button>
+                <div class="input-wrapper">
+                    <input type="text" id="messageInput" placeholder="輸入訊息...">
+                    <button class="emoji-btn">
+                        <span class="material-icons">sentiment_satisfied_alt</span>
+                    </button>
+                </div>
+                <button class="send-btn" id="sendButton">
+                    <span class="material-icons">send</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- 底部導航欄 -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <span class="material-icons">home</span>
+                <span>首頁</span>
+            </a>
+            <a href="circles.html" class="nav-item">
+                <span class="material-icons">group</span>
+                <span>小圈圈</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <span class="material-icons">chat</span>
+                <span>聊天</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="material-icons">person</span>
+                <span>我的</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/chat-room.js"></script>
+</body>
+</html> 

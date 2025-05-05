@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小圈圈配對</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- 其他功能相關樣式 -->
+    <link rel="stylesheet" href="css/circles.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/chat-room.css">
+    <link rel="stylesheet" href="css/chats.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <!-- 最後載入主樣式，確保不被覆蓋 -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>小圈圈配對</h1>
+            <p>左滑略過，右滑加入</p>
+        </header>
+
+        <main class="circles-swipe">
+            <div class="card-stack" id="cardStack">
+                <!-- 卡片將由 JavaScript 動態生成 -->
+            </div>
+
+            <div class="swipe-buttons">
+                <button class="swipe-btn skip-btn">
+                    <span class="material-icons">close</span>
+                </button>
+                <button class="swipe-btn like-btn">
+                    <span class="material-icons">favorite</span>
+                </button>
+            </div>
+
+            <div class="create-circle-toggle">
+                <button onclick="toggleCreateCircleForm()">➕ 建立新小圈圈</button>
+            </div>
+
+            <div class="create-circle-form" id="createCircleForm" style="display:none; padding: 16px;">
+                <h3>建立新小圈圈</h3>
+                <label>名稱：<input type="text" id="newCircleName"></label><br><br>
+                <label>描述：<textarea id="newCircleDescription" rows="3"></textarea></label><br><br>
+                <label>標籤（以逗號分隔）：<input type="text" id="newCircleTags"></label><br><br>
+                <button onclick="createNewCircle()">建立</button>
+            </div>
+        </main>
+
+        <div class="match-overlay" id="matchOverlay">
+            <div class="match-content">
+                <h2>配對成功！</h2>
+                <p>你已成功加入小圈圈</p>
+                <div class="match-circle-info"></div>
+                <div class="match-buttons">
+                    <button class="match-btn" onclick="startChat()">開始聊天</button>
+                    <button class="match-btn secondary" onclick="continueSwiping()">繼續瀏覽</button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <span class="material-icons">home</span>
+                <span>首頁</span>
+            </a>
+            <a href="circles.html" class="nav-item active">
+                <span class="material-icons">group</span>
+                <span>小圈圈</span>
+            </a>
+            <a href="chats.html" class="nav-item">
+                <span class="material-icons">chat</span>
+                <span>聊天</span>
+            </a>
+            <div class="chat-preview" id="chatPreview"></div>
+            <a href="profile.html" class="nav-item">
+                <span class="material-icons">person</span>
+                <span>我的</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/circles.js"></script>
+    <script>
+        function toggleCreateCircleForm() {
+            const form = document.getElementById('createCircleForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function createNewCircle() {
+            const name = document.getElementById('newCircleName').value.trim();
+            const description = document.getElementById('newCircleDescription').value.trim();
+            const tags = document.getElementById('newCircleTags').value.trim().split(',').map(t => t.trim());
+
+            if (!name || !description) {
+                alert('請填寫完整資訊');
+                return;
+            }
+
+            const newCircle = {
+                id: Date.now(),
+                title: name,
+                description: description,
+                tags: tags,
+                members: 1,
+                image: 'group-custom.jpg'
+            };
+
+            if (typeof circles !== 'undefined') {
+                circles.push(newCircle);
+            }
+
+            alert('已建立新小圈圈，請重新整理開始配對');
+            document.getElementById('createCircleForm').reset();
+            toggleCreateCircleForm();
+        }
+    </script>
+</body>
+</html>

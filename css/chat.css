@@ -1,0 +1,224 @@
+/* 聊天消息樣式 */
+.message {
+    margin-bottom: 16px;
+    max-width: 80%;
+    clear: both;
+}
+
+.user-message {
+    float: right;
+}
+
+.bot-message {
+    float: left;
+}
+
+.message-content {
+    padding: 12px 16px;
+    border-radius: 16px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.user-message .message-content {
+    background-color: #6B8DE3;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.bot-message .message-content {
+    background-color: #F0F2FF;
+    color: #2D3142;
+    border-bottom-left-radius: 4px;
+}
+
+.message-time {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+    text-align: right;
+}
+
+/* 輸入提示 */
+.typing-indicator {
+    color: #666;
+    font-size: 14px;
+    padding: 8px;
+    margin-bottom: 16px;
+}
+
+/* 聊天框滾動條樣式 */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+}
+
+/* 動畫效果 */
+.message {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 表情選擇器 */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    display: none;
+}
+
+.emoji-picker.active {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+}
+
+.emoji-item {
+    font-size: 20px;
+    padding: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.emoji-item:hover {
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* 語音輸入按鈕 */
+.voice-input-btn {
+    background: none;
+    border: none;
+    color: #6B8DE3;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.voice-input-btn.recording {
+    color: #ff4444;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 未讀消息提示 */
+.unread-indicator {
+    background: #ff4444;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+
+/* 消息狀態指示器 */
+.message-status {
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
+}
+
+.message-status.sent {
+    color: #6B8DE3;
+}
+
+.message-status.delivered {
+    color: #4CAF50;
+}
+
+/* 圖片消息樣式 */
+.message-content img {
+    max-width: 200px;
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+/* 文件消息樣式 */
+.file-message {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-icon {
+    font-size: 24px;
+    color: #6B8DE3;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-name {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.file-size {
+    font-size: 12px;
+    color: #666;
+}
+
+/* 快速回覆按鈕 */
+.quick-replies {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.quick-reply-btn {
+    background: #F0F2FF;
+    color: #6B8DE3;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.quick-reply-btn:hover {
+    background: #E1E5FF;
+} 

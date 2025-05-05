@@ -1,0 +1,315 @@
+/* 小圈圈配對頁面樣式 */
+.circles-swipe {
+    position: relative;
+    height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 卡片堆疊區域 */
+.card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 480px;
+    margin-bottom: 20px;
+}
+
+/* 小圈圈卡片樣式 */
+.circle-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    touch-action: none;
+    transition: transform 0.3s ease-out;
+}
+
+.circle-card.swiping {
+    transition: none;
+}
+
+.circle-card-image {
+    width: 100%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+    background-color: #f0f2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-card-image .material-icons {
+    font-size: 64px;
+    color: #6B8DE3;
+}
+
+.circle-card-content {
+    padding: 20px;
+}
+
+.circle-card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #2D3142;
+}
+
+.circle-card-members {
+    color: #666;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.circle-card-description {
+    color: #4F4F4F;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.circle-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.circle-tag {
+    background: #F0F2FF;
+    color: #6B8DE3;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+/* 滑動按鈕 */
+.swipe-buttons {
+    display: flex;
+    gap: 24px;
+    margin-top: auto;
+}
+
+.swipe-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.swipe-btn:active {
+    transform: scale(0.95);
+}
+
+.skip-btn {
+    background: #FFE5E5;
+    color: #FF6B6B;
+}
+
+.like-btn {
+    background: #E5FFE9;
+    color: #4CAF50;
+}
+
+.swipe-btn .material-icons {
+    font-size: 32px;
+}
+
+/* 滑動方向指示器 */
+.swipe-indicator {
+    position: absolute;
+    top: 20px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    transform: rotate(-15deg);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.swipe-indicator.like {
+    right: 20px;
+    background: #E5FFE9;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+
+.swipe-indicator.skip {
+    left: 20px;
+    background: #FFE5E5;
+    color: #FF6B6B;
+    border: 2px solid #FF6B6B;
+}
+
+/* 配對成功提示 */
+.match-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.match-overlay.active {
+    display: flex;
+}
+
+.match-content {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+}
+
+.match-content h2 {
+    color: #6B8DE3;
+    margin-bottom: 8px;
+}
+
+.match-circle-info {
+    margin: 24px 0;
+    padding: 16px;
+    background: #F8F9FF;
+    border-radius: 12px;
+}
+
+.match-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.match-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.match-btn:not(.secondary) {
+    background: #6B8DE3;
+    color: white;
+}
+
+.match-btn.secondary {
+    background: #F0F2FF;
+    color: #6B8DE3;
+}
+
+/* 無更多卡片提示 */
+.no-more-cards {
+    text-align: center;
+    color: #666;
+    margin-top: 40px;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+    .circles-swipe {
+        height: calc(100vh - 140px);
+        padding: 12px;
+    }
+
+    .card-stack {
+        height: 420px;
+    }
+
+    .swipe-btn {
+        width: 56px;
+        height: 56px;
+    }
+
+    .swipe-btn .material-icons {
+        font-size: 28px;
+    }
+} 
+/* 建立新小圈圈按鈕與表單 */
+.create-circle-toggle {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.create-circle-toggle button {
+    background-color: #6B8DE3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.create-circle-toggle button:hover {
+    background-color: #5877c5;
+}
+
+.create-circle-form {
+    background: #F8F9FF;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.create-circle-form h3 {
+    color: #2D3142;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.create-circle-form label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.create-circle-form input,
+.create-circle-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.create-circle-form button {
+    margin-top: 10px;
+    background-color: #6B8DE3;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.create-circle-form button:hover {
+    background-color: #4f6cc0;
+}

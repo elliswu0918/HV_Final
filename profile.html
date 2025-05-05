@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人資料設定 - 心靈陪伴</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="back-button" onclick="window.location.href='index.html'">
+                <span class="material-icons">arrow_back</span>
+            </div>
+            <h1>個人資料設定</h1>
+        </header>
+
+        <main class="profile-content">
+            <div class="profile-avatar">
+                <img src="images/icon.png" alt="用戶頭像" class="avatar">
+                <button class="change-avatar-btn">
+                    <span class="material-icons">photo_camera</span>
+                    更換頭像
+                </button>
+            </div>
+
+            <form class="profile-form" id="profileForm">
+                <div class="form-group">
+                    <label>暱稱</label>
+                    <input type="text" name="nickname" placeholder="請輸入您的暱稱">
+                </div>
+
+                <div class="form-group">
+                    <label>年齡</label>
+                    <input type="number" name="age" placeholder="請輸入您的年齡">
+                </div>
+
+                <div class="form-group">
+                    <label>照護經驗</label>
+                    <select name="experience">
+                        <option value="">請選擇照護經驗</option>
+                        <option value="0-1">未滿1年</option>
+                        <option value="1-3">1-3年</option>
+                        <option value="3-5">3-5年</option>
+                        <option value="5+">5年以上</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>興趣標籤</label>
+                    <div class="tags-input">
+                        <div class="tags-container" id="tagsContainer"></div>
+                        <input type="text" id="tagInput" placeholder="輸入標籤後按Enter">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>自我介紹</label>
+                    <textarea name="bio" placeholder="簡單介紹一下自己吧"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>隱私設定</label>
+                    <div class="privacy-settings">
+                        <label class="switch">
+                            <input type="checkbox" name="showProfile">
+                            <span class="slider"></span>
+                            <span class="switch-label">顯示個人資料給其他成員</span>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" name="allowMessage">
+                            <span class="slider"></span>
+                            <span class="switch-label">允許其他成員傳送訊息</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="save-btn">儲存變更</button>
+            </form>
+        </main>
+    </div>
+
+    <script src="js/profile.js"></script>
+</body>
+</html> 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天列表 - 心靈陪伴</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chats.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>聊天</h1>
+            <button class="icon-btn">
+                <span class="material-icons">search</span>
+            </button>
+        </header>
+
+        <main class="chats-main">
+            <div class="chat-list" id="chatList">
+                <!-- 聊天列表將由 JavaScript 動態生成 -->
+            </div>
+        </main>
+
+        <!-- 底部導航欄 -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <span class="material-icons">home</span>
+                <span>首頁</span>
+            </a>
+            <a href="circles.html" class="nav-item">
+                <span class="material-icons">group</span>
+                <span>小圈圈</span>
+            </a>
+            <a href="chats.html" class="nav-item active">
+                <span class="material-icons">chat</span>
+                <span>聊天</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span class="material-icons">person</span>
+                <span>我的</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="js/chats.js"></script>
+</body>
+</html> 

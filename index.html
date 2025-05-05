@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心靈陪伴</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- 頂部問候語 -->
+        <header class="header">
+            <div class="user-greeting">
+                <img src="images/icon.png" alt="用戶頭像" class="avatar">
+                <div class="greeting-text">
+                    <h1>你好，朋友</h1>
+                    <p>今天感覺如何？</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 24小時陪伴機器人 -->
+        <div class="chatbot-card">
+            <div class="icon-container">
+                <span class="material-icons">psychology</span>
+            </div>
+            <div class="card-content">
+                <h2>24小時陪伴機器人</h2>
+                <p>隨時為你提供溫暖的陪伴與支持</p>
+            </div>
+            <button class="start-chat-btn">開始聊天</button>
+        </div>
+
+        <!-- 小圈圈部分 -->
+        <section class="circles-section">
+            <h2>為你推薦的小圈圈</h2>
+            <div class="circles-container">
+                <!-- 小圈圈卡片由 JavaScript 動態生成 -->
+            </div>
+        </section>
+
+        <!-- 資源地圖 -->
+        <section class="map-section">
+            <h2>附近的支持資源</h2>
+            <div class="map-container">
+                <div id="map" style="height: 500px; border-radius: 16px;"></div>
+            </div>
+            
+            <!-- 插入推薦評價的 HTML 結構 -->
+            <div class="featured-reviews-container">
+                <div class="reviews-slider" id="reviewsSlider">
+                    <!-- 卡片會被動態加到這裡 -->
+                </div>
+                <button class="prev-button">←</button>
+                <button class="next-button">→</button>
+            </div>
+            
+            <div id="recommendations" class="recommendations-container">
+                <!-- 推薦內容將由 JavaScript 動態生成 -->
+            </div>
+        </section>
+
+        <!-- 聊天對話框 -->
+        <div class="chat-dialog">
+            <div class="chat-header">
+                <h3>AI 心靈陪伴</h3>
+                <button class="close-btn">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="chat-messages">
+                <!-- 消息將在這裡動態添加 -->
+            </div>
+            <div class="chat-input">
+                <button class="voice-input-btn">
+                    <span class="material-icons">mic</span>
+                </button>
+                <input type="text" placeholder="輸入訊息...">
+                <button class="send-btn">
+                    <span class="material-icons">send</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 被看見的牆 -->
+        <section class="see-you-wall">
+            <h2>被看見的牆</h2>
+            <div class="post-form">
+                <textarea id="newPostContent" placeholder="在這裡匿名分享你的心情..." rows="4"></textarea>
+                <button onclick="addNewPost()">發佈</button>
+            </div>
+            <div class="post-list" id="seeYouWall">
+                <!-- 文章會動態加進來 -->
+            </div>
+        </section>
+    </div>
+
+    <!-- 底部導航欄 -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <span class="material-icons">home</span>
+            <span>首頁</span>
+        </a>
+        <a href="circles.html" class="nav-item">
+            <span class="material-icons">group</span>
+            <span>小圈圈</span>
+        </a>
+        <a href="chats.html" class="nav-item" id="chatNavItem">
+            <span class="material-icons">chat</span>
+            <span>聊天</span>
+        </a>
+        <div class="chat-preview" id="chatPreview"></div>
+        <a href="profile.html" class="nav-item">
+            <span class="material-icons">person</span>
+            <span>我的</span>
+        </a>
+    </nav>
+
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reviews = [
+                {
+                    name: "微光心理診所",
+                    type: "心理諮詢",
+                    rating: 4.8,
+                    content: "專業溫暖，非常推薦給需要幫助的人。",
+                    author: "小綠",
+                    date: "2024-11-01"
+                },
+                {
+                    name: "心靈港灣",
+                    type: "喘息服務",
+                    rating: 4.6,
+                    content: "空間舒服，志工也很親切。",
+                    author: "文文",
+                    date: "2024-12-10"
+                },
+                {
+                    name: "心靈花園",
+                    type: "心理諮詢",
+                    rating: 4.7,
+                    content: "這裡的諮商師非常專業，讓我感到被理解。",
+                    author: "小藍",
+                    date: "2024-11-15"
+                },
+                {
+                    name: "心靈之聲",
+                    type: "心理輔導",
+                    rating: 4.9,
+                    content: "環境非常舒適，讓我能夠放鬆心情。",
+                    author: "小紅",
+                    date: "2024-11-20"
+                },
+                {
+                    name: "心靈之光",
+                    type: "心理諮詢",
+                    rating: 4.5,
+                    content: "這裡的服務態度很好，讓我感到很安心。",
+                    author: "小黃",
+                    date: "2024-12-01"
+                }
+            ];
+
+            const container = document.getElementById("reviewsSlider");
+
+            reviews.forEach(review => {
+                const card = document.createElement("div");
+                card.className = "featured-review-card";
+                card.innerHTML = `
+                    <div class="featured-review-header">
+                        <div class="featured-review-resource">
+                            <h3>${review.name}</h3>
+                            <div class="type">${review.type}</div>
+                            <div class="featured-review-rating">★ ${review.rating}</div>
+                        </div>
+                    </div>
+                    <div class="featured-review-content">
+                        ${review.content}
+                    </div>
+                    <div class="featured-review-author">
+                        <div class="featured-review-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div class="featured-review-info">
+                            <div class="featured-review-name">${review.author}</div>
+                            <div class="featured-review-date">${review.date}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // 滑動功能
+            document.querySelector('.prev-button').addEventListener('click', () => {
+                document.querySelector('.reviews-slider').scrollBy({ left: -300, behavior: 'smooth' });
+            });
+
+            document.querySelector('.next-button').addEventListener('click', () => {
+                document.querySelector('.reviews-slider').scrollBy({ left: 300, behavior: 'smooth' });
+            });
+        });
+
+        // 建立地圖並設置中心座標（台北101）
+        const map = L.map('map').setView([25.0330, 121.5654], 13);
+
+        // 加入 OpenStreetMap 地圖圖層
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '地圖來源：OpenStreetMap',
+        }).addTo(map);
+
+        // 加入一個 marker 標記 + 資訊視窗
+        L.marker([25.0330, 121.5654]).addTo(map)
+            .bindPopup('<b>微光心理診所</b><br>很溫暖的空間')
+            .openPopup();
+
+        let seeYouPosts = [];
+
+        function addNewPost() {
+            const content = document.getElementById("newPostContent").value.trim();
+            if (!content) return;
+
+            seeYouPosts.unshift({
+                content,
+                seen: 0,
+                hugs: 0,
+                timestamp: new Date().toLocaleString()
+            });
+            document.getElementById("newPostContent").value = "";
+            renderPosts();
+        }
+
+        function renderPosts() {
+            const wall = document.getElementById("seeYouWall");
+            wall.innerHTML = seeYouPosts.map((post, index) => `
+                <div class="post-card">
+                    <p>${post.content}</p>
+                    <div class="interaction-buttons">
+                        <button onclick="interact(${index}, 'seen')">看見你了 (${post.seen})</button>
+                        <button onclick="interact(${index}, 'hugs')">給你擁抱 (${post.hugs})</button>
+                    </div>
+                    <small>發佈於 ${post.timestamp}</small>
+                </div>
+            `).join('');
+        }
+
+        function interact(index, type) {
+            if (type === 'seen') seeYouPosts[index].seen++;
+            if (type === 'hugs') seeYouPosts[index].hugs++;
+            renderPosts();
+        }
+    </script>
+</body>
+</html> 
