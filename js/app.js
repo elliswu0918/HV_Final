@@ -67,28 +67,14 @@ async function handleSendMessage() {
     chatMessages.appendChild(typingDiv);
 
     try {
-        // 這裡應該是調用 AI API 的地方
-        // 目前使用模擬回應
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = getAIResponse(message);
+        // 調用生成式 AI 的回應
+        const response = await getLocalModelResponse(message);
         chatMessages.removeChild(typingDiv);
         addMessage(response);
     } catch (error) {
         chatMessages.removeChild(typingDiv);
         addMessage('抱歉，我現在無法回應，請稍後再試。');
     }
-}
-
-// 模擬 AI 回應
-function getAIResponse(message) {
-    const responses = [
-        '我理解你的感受。讓我們一起探討這個問題。',
-        '聽起來這對你來說是個困擾。你想多談談嗎？',
-        '我在這裡陪著你。要不要告訴我更多？',
-        '這確實是個難處理的情況。我們可以一起想辦法。',
-        '謝謝你願意分享。你做得很好。'
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
 }
 
 // 事件監聽器
@@ -199,4 +185,40 @@ function joinCircle(circle) {
 document.addEventListener('DOMContentLoaded', () => {
     loadUserProfile();
     renderCircles();
-}); 
+});
+
+async function getLocalModelResponse(userMsg) {
+    const prompt = `
+你是一位專業的心理諮商師，擅長以同理心和支持性的方式與來訪者對話。
+請遵循以下原則：
+1. 使用溫和、平靜的語氣
+2. 展現積極傾聽和同理心
+3. 避免直接給建議，而是引導來訪者自我探索
+4. 使用開放式問題鼓勵來訪者表達
+5. 適時反映來訪者的情緒
+6. 保持專業界限
+7. 注意來訪者的情緒變化
+8. 在適當時機做摘要與統整
+
+以下是來訪者的提問：${userMsg}
+`;
+
+    try {
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCq_cLijJCx4DszzypqYeTmyhy1bJ0U4HA", { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
+        console.log("API 響應：", data);
+
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        return reply || "目前無法取得生成式 AI 的回應。";
+    } catch (e) {
+        console.error("生成式 AI API 錯誤：", e);
+        return "呼叫生成式 AI 失敗，請稍後再試。";
+    }
+} 

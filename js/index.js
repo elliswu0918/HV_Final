@@ -652,4 +652,135 @@ document.addEventListener("DOMContentLoaded", function () {
     prevButton.onclick = () => slideReviews('prev');
 });
 
+async function getLocalModelResponse(userMsg) {
+    const prompt = `
+你是一位專業的心理諮商師，擅長以同理心和支持性的方式與來訪者對話。
+請遵循以下原則：
+1. 使用溫和、平靜的語氣
+2. 展現積極傾聽和同理心
+3. 避免直接給建議，而是引導來訪者自我探索
+4. 使用開放式問題鼓勵來訪者表達
+5. 適時反映來訪者的情緒
+6. 保持專業界限
+7. 注意來訪者的情緒變化
+8. 在適當時機做摘要與統整
+
+以下是來訪者的提問：${userMsg}
+`;
+
+    try {
+        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyCq_cLijJCx4DszzypqYeTmyhy1bJ0U4HA", { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+
+        const data = await response.json();
+        console.log("API 響應：", data);
+
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        return reply || "目前無法取得生成式 AI 的回應。";
+    } catch (e) {
+        console.error("生成式 AI API 錯誤：", e);
+        return "呼叫生成式 AI 失敗，請稍後再試。";
+    }
+}
+
+let chart; // 用於存儲圖表實例
+
+function initChart() {
+    const ctx = document.getElementById('emotionChart').getContext('2d');
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], // 時間標籤
+            datasets: [
+                {
+                    label: '開心',
+                    data: [],
+                    borderColor: 'rgb(34,197,94)',
+                    tension: 0.4
+                },
+                {
+                    label: '憂傷',
+                    data: [],
+                    borderColor: 'rgb(239,68,68)',
+                    tension: 0.4
+                },
+                {
+                    label: '焦慮',
+                    data: [],
+                    borderColor: 'rgb(234,179,8)',
+                    tension: 0.4
+                },
+                {
+                    label: '平靜',
+                    data: [],
+                    borderColor: 'rgb(59,130,246)',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1 // 假設情感分數範圍是 0 到 1
+                }
+            }
+        }
+    });
+}
+
+function updateEmotionData() {
+    // 假設這裡有一些邏輯來更新情緒數據
+    const happyScore = Math.random(); // 示例數據
+    const sadScore = Math.random();   // 示例數據
+    const anxiousScore = Math.random(); // 示例數據
+    const calmScore = Math.random();   // 示例數據
+
+    // 更新情緒分數的顯示
+    document.getElementById("happyScore").textContent = (happyScore * 100).toFixed(0) + "%";
+    document.getElementById("sadScore").textContent = (sadScore * 100).toFixed(0) + "%";
+    document.getElementById("anxiousScore").textContent = (anxiousScore * 100).toFixed(0) + "%";
+    document.getElementById("calmScore").textContent = (calmScore * 100).toFixed(0) + "%";
+
+    // 更新圖表數據
+    chart.data.labels.push(new Date().toLocaleTimeString()); // 添加時間標籤
+    chart.data.datasets[0].data.push(happyScore); // 開心
+    chart.data.datasets[1].data.push(sadScore);    // 憂傷
+    chart.data.datasets[2].data.push(anxiousScore); // 焦慮
+    chart.data.datasets[3].data.push(calmScore);    // 平靜
+    chart.update(); // 更新圖表
+}
+
+function sendTextInput() {
+    const userMessage = document.getElementById("textInput").value.trim();
+    console.log("用戶輸入的消息：", userMessage);
+    if (userMessage) {
+        addMessage('user', userMessage);
+        updateEmotionData(); // 更新情感數據
+
+        const thinkingDiv = document.createElement('div');
+        thinkingDiv.className = 'flex justify-start';
+        thinkingDiv.innerHTML = '<div class="thinking">思考中...</div>';
+        document.getElementById('chat-messages').appendChild(thinkingDiv);
+
+        getLocalModelResponse(userMessage).then(response => {
+            thinkingDiv.remove();
+            addMessage('assistant', response);
+            speak(response);
+        }).catch(error => {
+            console.error('Error in sendTextInput:', error);
+            thinkingDiv.remove();
+            addMessage('assistant', '抱歉，發生錯誤，請稍後再試。');
+        });
+
+        document.getElementById("textInput").value = '';
+    }
+}
+
 
